@@ -1,0 +1,28 @@
+service: serverless-example
+
+useDotenv: true
+
+plugins:
+  - serverless-offline
+
+provider:
+  name: aws
+  runtime: nodejs16.x
+  region: eu-north-1
+  environment:
+    HOST: ${env:HOST}
+    PORT: ${env:PORT}
+    DATABASE: ${env:DATABASE}
+    USERNAME: ${env:USERNAME}
+    PASSWORD: ${env:PASSWORD}
+
+functions:
+  main:
+    handler: dist/main.handler
+    events:
+      - http:
+          method: ANY
+          path: /
+      - http:
+          method: ANY
+          path: '{proxy+}'
